@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timer');
     const collectedCharsDisplay = document.getElementById('collected-chars-display');
     const nextCharDisplay = document.getElementById('next-char-display');
-    const comboDisplay = document.getElementById('combo-display'); // ★追加
+    const comboDisplay = document.getElementById('combo-display');
     const startScreen = document.getElementById('start-screen');
     const gameOverScreen = document.getElementById('game-over-screen');
     const startButton = document.getElementById('start-button');
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeLeft = GAME_TIME;
     let currentSet = new Set();
     let orderedCollectedChars = [];
-    let consecutiveComboCount = 0; // ★追加：連続コンボ回数を記録
+    let consecutiveComboCount = 0;
     let charCreationInterval = null;
     let moveInterval = null;
     let timerInterval = null;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeLeft = GAME_TIME;
         currentSet.clear();
         orderedCollectedChars = [];
-        consecutiveComboCount = 0; // ★追加：コンボ回数をリセット
+        consecutiveComboCount = 0;
         isGameActive = true;
 
         updateUI();
@@ -92,12 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * スコアに応じた称号を返す関数
+     * ★変更点：スコアに応じた称号を返す関数（新しい基準）
+     * @param {number} finalScore - 最終スコア
+     * @returns {string} 称号
      */
     function getPlayerTitle(finalScore) {
-        if (finalScore <= 500) return '見習い王子';
-        if (finalScore <= 1000) return '一人前の王子';
-        if (finalScore <= 1500) return '凄腕の王子';
+        if (finalScore <= 2000) return '見習いUX王子';
+        if (finalScore <= 3500) return '一人前のUX王子';
+        if (finalScore <= 4499) return '凄腕のUX王子';
+        if (finalScore <= 4999) return 'カリスマのUX王子';
         return '伝説のUX王子';
     }
 
@@ -159,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * ★変更点：セット完成時にコンボチェーンを判定する関数
+     * セット完成時にコンボチェーンを判定する関数
      */
     function checkSetCompletion() {
         if (currentSet.size === CHARS.length) {
@@ -172,15 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (isCombo) {
-                consecutiveComboCount++; // 連続コンボ回数を増やす
-                const multiplier = consecutiveComboCount + 1; // 1回目=2倍, 2回目=3倍...
+                consecutiveComboCount++;
+                const multiplier = consecutiveComboCount + 1;
                 score += POINT_SET * multiplier;
-                // コンボ表示をアニメーションさせる
                 comboDisplay.classList.remove('combo-increase');
-                void comboDisplay.offsetWidth; // アニメーションを再始動させるためのリフロー
+                void comboDisplay.offsetWidth;
                 comboDisplay.classList.add('combo-increase');
             } else {
-                consecutiveComboCount = 0; // コンボが途切れたらリセット
+                consecutiveComboCount = 0;
                 score += POINT_SET;
             }
 
@@ -209,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * ★変更点：UI更新処理（コンボ倍率表示を追加）
+     * UI更新処理
      */
     function updateUI() {
         scoreDisplay.textContent = `SCORE: ${score}`;
@@ -228,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextComboChar = CHARS[orderedCollectedChars.length] || CHARS[0];
         nextCharDisplay.textContent = `NEXT: ${nextComboChar}`;
 
-        // コンボ倍率の表示を更新
         const displayMultiplier = consecutiveComboCount > 0 ? consecutiveComboCount + 1 : 1;
         comboDisplay.textContent = `x${displayMultiplier}`;
     }
