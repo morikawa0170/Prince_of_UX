@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX王子</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="info-bar">
+            <div id="timer">TIME: 60</div>
+            <div id="collected-chars-display">SET: _ _ _ _</div>
+            <div id="next-char-display">NEXT: U</div>
+            <div id="score">SCORE: 0</div>
+            <div id="combo-display">x1</div>
+        </div>
+
+        <div id="game-screen">
+            <div id="start-screen" class="screen">
+                <h1 class="game-title">UX王子</h1>
+                <button id="start-button" class="game-button">GAME START</button>
+            </div>
+
+            <div id="game-over-screen" class="screen" style="display: none;">
+                <h2 class="game-over-text">GAME OVER</h2>
+                <p>SCORE: <span id="final-score">0</span></p>
+                <p>TITLE: <span id="player-title"></span></p>
+                <button id="restart-button" class="game-button">RESTART</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
